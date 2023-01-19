@@ -15,6 +15,6 @@ Record output from Pal and your controller during a "take" where you are adjusti
 - Anyma receives CC.
 
 ## Extra info
-AnymaPal also requests and relays your patch state as SYSEX (so you can capture the entire Anyma state in your sequencer.
+AnymaPal also requests and relays your patch state as SYSEX (so you can capture the entire Anyma state in your sequencer).
 
 Happy recording! :)
