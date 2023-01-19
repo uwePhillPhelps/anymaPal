@@ -1,6 +1,8 @@
 # anymaPal
 a friend for MIDI recording with Aodyo Anyma Phi
 
+![robot by catalyststuff](Source/anymaPal.png)
+
 ## The problem
 Anyma patch state changes may not be simply recorded/edited with a MIDI sequencer.
 
