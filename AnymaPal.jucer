@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="AyTENA" name="AnymaPal" projectType="guiapp" version="0.0.1"
+              bundleIdentifier="uk.co.zenpho.anymaPal" includeBinaryInAppConfig="1"
+              jucerVersion="3.2.0">
+  <MAINGROUP id="VLHkid" name="AnymaPal">
+    <GROUP id="{635D1BC3-74FD-57BA-D604-107F7CC44156}" name="Source">
+      <FILE id="HvwjWr" name="anymaPal.png" compile="0" resource="0" file="Source/anymaPal.png"/>
+      <FILE id="sM8tbY" name="SyxRepeater.h" compile="1" resource="0" file="Source/SyxRepeater.h"/>
+      <FILE id="PDMhmA" name="MidiProcessor.cpp" compile="1" resource="0"
+            file="Source/MidiProcessor.cpp"/>
+      <FILE id="xp9TP6" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="gL9IGK" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="HvwjWr" bigIcon="HvwjWr">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="1" optimisation="1" targetName="AnymaPal"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="0" optimisation="3" targetName="AnymaPal"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../juce3/modules"/>
+        <MODULEPATH id="juce_events" path="../juce3/modules"/>
+        <MODULEPATH id="juce_graphics" path="../juce3/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../juce3/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../juce3/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../juce3/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../juce3/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../juce3/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
