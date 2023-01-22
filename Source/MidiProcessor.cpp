@@ -42,7 +42,8 @@ public:
   ~MidiProcessor()
   {
   }
-  
+
+#pragma enable/disable processing
   void start()
   {
     // request the anyma hardware send us the current patch state
@@ -70,6 +71,7 @@ public:
   bool isActive(){ return anymaKeepAlive.isActive(); }
   void toggle(){ isActive() ? stop() : start(); }
 
+#pragma midi tx and rx
   void handleIncomingMidiMessage (juce::MidiInput* source, const juce::MidiMessage& message) override
   {
       // DBG( "incomingMIDI " + String( message.getRawDataSize() ) );

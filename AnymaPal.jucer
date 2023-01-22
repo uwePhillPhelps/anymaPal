@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="AyTENA" name="AnymaPal" projectType="guiapp" version="0.0.1"
+<JUCERPROJECT id="AyTENA" name="AnymaPal" projectType="guiapp" version="0.0.2"
               bundleIdentifier="uk.co.zenpho.anymaPal" includeBinaryInAppConfig="1"
-              jucerVersion="3.2.0">
+              jucerVersion="3.2.0" userNotes="v0.0.1 supports main matrix, tuning, and patch state&#10;&#10;v0.0.2 supports alt matrix">
   <MAINGROUP id="VLHkid" name="AnymaPal">
     <GROUP id="{635D1BC3-74FD-57BA-D604-107F7CC44156}" name="Source">
       <FILE id="HvwjWr" name="anymaPal.png" compile="0" resource="0" file="Source/anymaPal.png"/>
