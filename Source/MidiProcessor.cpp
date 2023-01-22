@@ -82,12 +82,115 @@ public:
       if( message.isSysEx() && message.getSysExDataSize() < 256 ) // is sysex param state?
       {
         const uint8_t* rx = message.getRawData(); // incl 0xF0 and 0xF7 terminator
+        
+        // examine rx data and tx MIDI CC
+        handleTuning( rx );
         handleMainMatrix( rx );
         handleAltMatrix( rx );
       }
     
   }
+  
+  // tx cc 23
+  void handleTuning( const uint8_t* rx )
+  {
+    if( rx == nullptr ) return;
+    if( midiToSequencer == nullptr ) return;
+  
+    if( 0xF0 == rx[0] &&
+        0x71 == rx[1] &&
+        0x00 == rx[2] && // 0x00 = system param
+        0x02 == rx[3] )  // 0x02 = tuning
+    {
+        // cc 23 from param 2
+        MidiMessage msg = MidiMessage::controllerEvent( 1, 23, rx[4] );
+        midiToSequencer->sendMessageNow( msg );
+    }
+  }
 
+  // tx cc 16-31 (omit 23)
+  void handleMainMatrix( const uint8_t* rx )
+  {
+    if( rx == nullptr ) return;
+    if( midiToSequencer == nullptr ) return;
+    
+    if( 0xF0 == rx[0] &&
+        0x71 == rx[1] &&
+        0x06 == rx[2] )  // 0x06 = main matrix
+    {
+      // cc 16-22 from p 0-6
+      if( rx[3] >= 0 && rx[3] <= 6 )
+      {
+        uint8_t ccNum = rx[3] + 16;
+        uint8_t ccVal = rx[4];
+        
+        MidiMessage tx = MidiMessage::controllerEvent( 1, ccNum, ccVal );
+        midiToSequencer->sendMessageNow( tx );
+      }
+      
+      // cc 23 'main tuning' handled elsewhere
+      
+      // cc 24-31 from p 7-14
+      if( rx[3] >= 7 && rx[3] <= 14 )
+      {
+        uint8_t ccNum = rx[3] + 17;
+        uint8_t ccVal = rx[4];
+
+        MidiMessage tx = MidiMessage::controllerEvent( 1, ccNum, ccVal );
+        midiToSequencer->sendMessageNow( tx );
+      }
+    }// is main matrix?
+  }
+  
+  // tx cc 102-117 (omit 109, 114)
+  void handleAltMatrix( const uint8_t* rx )
+  {
+    if( rx == nullptr ) return;
+    if( midiToSequencer == nullptr ) return;
+    
+    if( 0xF0 == rx[0] &&
+        0x71 == rx[1] &&
+        0x07 == rx[2] )  // 0x07 = alt matrix
+    {
+      // cc 102-108 from p 0-6
+      if( rx[3] >= 0 && rx[3] <= 6 )
+      {
+        uint8_t ccNum = rx[3] + 102;
+        uint8_t ccVal = rx[4];
+        
+        MidiMessage tx = MidiMessage::controllerEvent( 1, ccNum, ccVal );
+        midiToSequencer->sendMessageNow( tx );
+      }
+      
+      // cc 109 - 'alt tuning' handled elsewhere
+      
+      // cc 110-113 from p 7-10
+      if( rx[3] >= 7 && rx[3] <= 10 )
+      {
+        uint8_t ccNum = rx[3] + 103;
+        uint8_t ccVal = rx[4];
+        
+        MidiMessage tx = MidiMessage::controllerEvent( 1, ccNum, ccVal );
+        midiToSequencer->sendMessageNow( tx );
+      }
+      
+      // cc 114 - 'alt morph' handled elsewhere
+      
+      // cc 115-117 from p 11-13
+      if( rx[3] >= 11 && rx[3] <= 13 )
+      {
+        uint8_t ccNum = rx[3] + 104;
+        uint8_t ccVal = rx[4];
+        
+        MidiMessage tx = MidiMessage::controllerEvent( 1, ccNum, ccVal );
+        midiToSequencer->sendMessageNow( tx );
+      }
+    }// is alt matrix?
+  }
+
+#pragma midi system ports
+  // //// //// //// //// //// //// //// //// //// //// //// ////
+  // midi system ports
   void setInputFromAnyma( const int index )
   {
     auto list = juce::MidiInput::getDevices();
@@ -117,68 +220,7 @@ public:
          return;
     }
   }
-
-  void handleAltMatrix( const uint8_t* rx )
-  {
-    if( rx == nullptr ) return;
-    if( midiToSequencer == nullptr ) return;
-    
-    // set ccNum and ccVal from rx data, -1 if not found
-    int16_t ccNum = -1;
-    int16_t ccVal = -1;
-  }
-
-  void handleMainMatrix( const uint8_t* rx )
-  {
-    if( rx == nullptr ) return;
-    if( midiToSequencer == nullptr ) return;
-    
-    // set ccNum and ccVal from rx data, -1 if not found
-    int16_t ccNum = -1;
-    int16_t ccVal = -1;
-
-    if( 0xF0 == rx[0] && // is 'tuning' param?
-        0x71 == rx[1] &&
-        0x00 == rx[2] &&
-        0x02 == rx[3] )
-    {
-        ccNum = 23;
-        ccVal = rx[4];
-    }
-
-    if( 0xF0 == rx[0] && // is matrix param?
-        0x71 == rx[1] &&
-        0x06 == rx[2] )
-    {
-      switch( rx[3] )
-      {
-        case 0: ccNum = 16; ccVal = rx[4]; break;
-        case 1: ccNum = 17; ccVal = rx[4]; break;
-        case 2: ccNum = 18; ccVal = rx[4]; break;
-        case 3: ccNum = 19; ccVal = rx[4]; break;
-        case 4: ccNum = 20; ccVal = rx[4]; break;
-        case 5: ccNum = 21; ccVal = rx[4]; break;
-        case 6: ccNum = 22; ccVal = rx[4]; break;
-        
-        // cc 23 'tuning' handled elsewhere
-        
-        case 7: ccNum = 24; ccVal = rx[4]; break;
-        case 8: ccNum = 25; ccVal = rx[4]; break;
-        case 9: ccNum = 26; ccVal = rx[4]; break;
-        case 10: ccNum = 27; ccVal = rx[4]; break;
-        case 11: ccNum = 28; ccVal = rx[4]; break;
-        case 12: ccNum = 29; ccVal = rx[4]; break;
-        case 13: ccNum = 30; ccVal = rx[4]; break;
-        case 14: ccNum = 31; ccVal = rx[4]; break;
-      }
-      
-      if( -1 != ccNum && -1 != ccVal ) // is valid?
-      {
-        MidiMessage tx = MidiMessage::controllerEvent( 1, ccNum, ccVal );
-        midiToSequencer->sendMessageNow( tx );
-      } // is valid?
-    }// is matrix param?
-  }
+  
 };
 
 class MidiProcessorComponent
