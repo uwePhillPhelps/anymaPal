@@ -23,4 +23,4 @@ AnymaPal also requests and relays your patch state as SYSEX (so you can capture 
 
 Happy recording! :)
 
-For a DAWless alternative solution, see [anymaHWPal a hardware friend](/uwePhillPhelps/anymaHWPal/).
+For a DAWless alternative solution, see [anymaHWPal a hardware friend](//github.com/uwePhillPhelps/anymaHWPal/).
